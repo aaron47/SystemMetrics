@@ -24,12 +24,13 @@ public class SystemMetricsBroadcastingThread extends Thread {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                double cpuUsage = systemMetricsService.getCpuUsage();
-                long totalMemory = systemMetricsService.getTotalMemory();
-                long availableMemory = systemMetricsService.getAvailableMemory();
-                double memoryUsage = systemMetricsService.getMemoryUsage();
+                double cpuUsage = this.systemMetricsService.getCpuUsage();
+                long totalMemory = this.systemMetricsService.getTotalMemory();
+                long availableMemory = this.systemMetricsService.getAvailableMemory();
+                double memoryUsage = this.systemMetricsService.getMemoryUsage();
+                double gpuUsage = this.systemMetricsService.getGpuUsage();
 
-                Metrics metrics = new Metrics(cpuUsage, totalMemory, availableMemory, memoryUsage);
+                Metrics metrics = new Metrics(cpuUsage, totalMemory, availableMemory, memoryUsage, gpuUsage);
                 String json = this.gson.toJson(metrics);
 
                 for (WebSocketSession session : sessions) {

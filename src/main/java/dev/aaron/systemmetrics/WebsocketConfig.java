@@ -8,9 +8,14 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebsocketConfig implements WebSocketConfigurer {
+    private final SystemMetricsService systemMetricsService;
+
+    public WebsocketConfig(SystemMetricsService systemMetricsService) {
+        this.systemMetricsService = systemMetricsService;
+    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SystemMetricsWebsocketHandler(new SystemMetricsService()), "/metrics").setAllowedOrigins("*");
+        registry.addHandler(new SystemMetricsWebsocketHandler(this.systemMetricsService), "/metrics").setAllowedOrigins("*");
     }
 }

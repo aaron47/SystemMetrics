@@ -10,9 +10,11 @@ public class SystemMetricsService {
     private final SystemInfo systemInfo;
     private final HardwareAbstractionLayer hardware;
     private final CentralProcessor processor;
+    private final GpuUsageService gpuUsageService;
     private long[] prevTicks;
 
-    public SystemMetricsService() {
+    public SystemMetricsService(GpuUsageService gpuUsageService) {
+        this.gpuUsageService = gpuUsageService;
         this.systemInfo = new SystemInfo();
         this.hardware = this.systemInfo.getHardware();
         this.prevTicks = new long[CentralProcessor.TickType.values().length];
@@ -38,5 +40,9 @@ public class SystemMetricsService {
 
     public long getAvailableMemory() {
         return this.hardware.getMemory().getAvailable();
+    }
+
+    public double getGpuUsage() {
+        return this.gpuUsageService.getGpuUsage();
     }
 }
