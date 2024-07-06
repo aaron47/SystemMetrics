@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Metrics</title>
+    <script>
+        let ws = new WebSocket("ws://localhost:8080/metrics");
+
+        ws.onmessage = function(event) {
+            let metrics = JSON.parse(event.data);
+            document.getElementById("cpuUsage").innerText = "CPU Usage: " + metrics.cpuUsage.toFixed(2) + "%";
+            document.getElementById("totalMemory").innerText = "Total Memory: " + (metrics.totalMemory / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+            document.getElementById("availableMemory").innerText = "Available Memory: " + (metrics.availableMemory / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+						document.getElementById("memoryUsagePercentage").innerText = "Memory Usage Percentage: " + metrics.memoryUsage.toFixed(2) + "%";
+        };
+    </script>
+</head>
+<body>
+    <h1>System Metrics</h1>
+    <p id="cpuUsage">CPU Usage: </p>
+    <p id="totalMemory">Total Memory: </p>
+    <p id="availableMemory">Available Memory: </p>
+    <p id="memoryUsagePercentage"> Memory Usage Percentage: </p>
+</body>
+</html>
